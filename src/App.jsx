@@ -42,14 +42,22 @@ function App() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
-    fetch('https://api.freeapi.app/api/v1/public/randomproducts?limit=20')
+    setLoading(true)
+    fetch(`https://api.freeapi.app/api/v1/public/randomproducts?page=${page}&limit=10`)
       .then(res => res.json())
-      .then(data => setProducts(data.data?.data || []))
+      .then(data => {
+        setProducts(data.data?.data || [])
+        setTotalPages(data.data?.totalPages || 1)
+      })
       .catch(() => setError('Failed to fetch products'))
       .finally(() => setLoading(false))
-  }, [])
+  }, [page])
+
+  const goTo = (p) => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }) }
 
   if (loading) return (
     <div className="status">
@@ -65,7 +73,6 @@ function App() {
       <header>
         <div className="header-inner">
           <div className="logo">
-            <span className="logo-icon">🛍️</span>
             <span className="logo-text">Shop<span className="logo-accent">Free</span></span>
           </div>
           <nav className="nav-links">
@@ -85,6 +92,7 @@ function App() {
       </header>
 
       <main className="container">
+        <div className="page-info">Page {page} of {totalPages}</div>
         <div className="grid">
           {products.map(product => {
             const discounted = +(product.price * (1 - product.discountPercentage / 100)).toFixed(2)
@@ -121,6 +129,24 @@ function App() {
               </div>
             )
           })}
+        </div>
+
+        <div className="pagination">
+          <button className="page-btn" onClick={() => goTo(1)} disabled={page === 1}>«</button>
+          <button className="page-btn" onClick={() => goTo(page - 1)} disabled={page === 1}>‹</button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+            .reduce((acc, p, i, arr) => {
+              if (i > 0 && p - arr[i - 1] > 1) acc.push('...')
+              acc.push(p)
+              return acc
+            }, [])
+            .map((p, i) => p === '...'
+              ? <span key={`d${i}`} className="page-dots">…</span>
+              : <button key={p} className={`page-btn ${p === page ? 'active' : ''}`} onClick={() => goTo(p)}>{p}</button>
+            )}
+          <button className="page-btn" onClick={() => goTo(page + 1)} disabled={page === totalPages}>›</button>
+          <button className="page-btn" onClick={() => goTo(totalPages)} disabled={page === totalPages}>»</button>
         </div>
       </main>
     </div>
