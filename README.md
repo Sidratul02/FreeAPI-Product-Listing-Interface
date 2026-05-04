@@ -1,6 +1,8 @@
-# 🛍️ ShopFree — FreeAPI Product Listing Interface
+# ShopFree 
 
 A product listing interface built with React + Vite, powered by the [FreeAPI](https://freeapi.app) random products endpoint.
+
+
 
 ## Features
 
