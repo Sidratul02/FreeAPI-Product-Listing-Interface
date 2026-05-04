@@ -1,19 +1,17 @@
-# ShopFree 
+# ShopFree
 
-![alt text](<Screenshot (271).png>)
+A paginated product listing interface built with React + Vite, styled in a premium blue glassmorphism theme, powered by the [FreeAPI](https://freeapi.app) random products endpoint.
 
-A paginated product listing interface built with React + Vite, styled in a pastel pink and yellow theme, powered by the [FreeAPI](https://freeapi.app) random products endpoint.
-
-
+![alt text](<Screenshot (273).png>)
 
 ## Features
 
 - Fetches products from `https://api.freeapi.app/api/v1/public/randomproducts`
 - Paginated — 10 products per page with smart pagination controls
-- Responsive product grid (auto-fill, min 260px per card)
-- Pastel pink & yellow theme with soft card design
-- Glassmorphism sticky navbar with logo, nav links, search, wishlist and cart
-- Discount badge with pink-to-yellow gradient
+- Responsive product grid (auto-fill, min 270px per card)
+- Premium blue glassmorphism theme with gradient background
+- Frosted glass sticky navbar with logo, nav links, search, wishlist and cart
+- Discount badge with red-to-orange gradient
 - Discounted price calculation with original price crossed out
 - Stock indicator — warns when stock is low
 - Star rating display
